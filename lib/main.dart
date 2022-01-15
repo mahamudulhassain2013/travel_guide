@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-
 import 'package:firebase_core/firebase_core.dart'as firebase_core;
-import 'package:travel_guide/old/pages/homepage.dart';
+import 'package:travel_guide/pages/crud.dart';
+import 'package:travel_guide/pages/upload_img.dart';
 
-import 'pages/crud.dart';
-import 'pages/spot_details.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +21,7 @@ class MyApp extends StatelessWidget {
         hintColor: Colors.white
       ),
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: UploadImage(),
     );
   }
 }

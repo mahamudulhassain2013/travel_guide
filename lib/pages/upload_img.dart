@@ -17,9 +17,9 @@ class _UploadImageState extends State<UploadImage> {
 
   Future CameraImage() async{
     var img = await image.pickImage(source: ImageSource.camera);
-    setState(() {
-      file = File(img!.path);
-    });
+   setState(() {
+     file = File(img!.path);
+   });
   }
   Future GaleryImage() async{
     var img = await image.pickImage(source: ImageSource.gallery);

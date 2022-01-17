@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart'as firebase_core;
-import 'package:travel_guide/pages/crud.dart';
-import 'package:travel_guide/pages/upload_img.dart';
+import 'package:provider/provider.dart';
+import 'package:travel_guide/pages/count_provider.dart';
+import 'package:travel_guide/pages/counter.dart';
+import 'package:travel_guide/pages/crud_sir.dart';
 
 
 void main() async {
@@ -15,13 +17,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        primaryColor: Colors.green,
-        hintColor: Colors.white
+    return ChangeNotifierProvider(
+      create: (context)=>CounterProvider(),
+      child: MaterialApp(
+        theme: ThemeData(
+          primaryColor: Colors.green,
+          hintColor: Colors.white
+        ),
+        debugShowCheckedModeBanner: false,
+        home: RetriveData(),
+
       ),
-      debugShowCheckedModeBanner: false,
-      home: UploadImage(),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:travel_guide/pages/add_travel_spot.dart';
 import 'package:travel_guide/pages/sport.dart';
 import 'package:travel_guide/widgets/appbardecoration.dart';
 import 'package:travel_guide/widgets/static_variable.dart';
@@ -18,6 +19,14 @@ class _rrrrState extends State<rrrr> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBarDecoration(context,"${widget.region}"),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => AddTravelSpot()));
+
+      },
+      child: Icon(Icons.add),
+      ),
       body: GridView.builder(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
           itemCount: widget.index==0?StaticVariables.TravelBD.length
@@ -33,7 +42,7 @@ class _rrrrState extends State<rrrr> {
                     :StaticVariables.TravelWorld[index],style: TextStyle(fontSize: 20),),
               ),
             );
-          }),
+          });
     );
   }
 }

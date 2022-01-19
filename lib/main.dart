@@ -1,6 +1,9 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart'as firebase_core;
 import 'package:provider/provider.dart';
+import 'package:travel_guide/pages/add_travel_spot.dart';
 import 'package:travel_guide/pages/count_provider.dart';
 import 'package:travel_guide/pages/counter.dart';
 import 'package:travel_guide/pages/crud_sir.dart';
@@ -17,15 +20,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context)=>CounterProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context)=>CounterProvider()),
+        ChangeNotifierProvider(create: (context)=>CounterProvider()),
+        ChangeNotifierProvider(create: (context)=>CounterProvider()),
+      ],
+     // create: (context)=>CounterProvider(),
       child: MaterialApp(
         theme: ThemeData(
           primaryColor: Colors.green,
           hintColor: Colors.white
         ),
         debugShowCheckedModeBanner: false,
-        home: RetriveData(),
+        home: AddTravelSpot(),
 
       ),
     );

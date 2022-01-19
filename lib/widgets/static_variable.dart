@@ -7,6 +7,12 @@ class StaticVariables{
          'Video',
          'Saved Info',
   ];
+
+  static const List TravelRegion = [
+    'Travel Bangladesh',
+    'Travel World',
+  ];
+
   static const List TravelBD=[
   'Comilla',
    'Feni',

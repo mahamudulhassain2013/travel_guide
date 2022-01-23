@@ -1,7 +1,11 @@
 
 
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:travel_guide/widgets/button.dart';
 import 'package:travel_guide/widgets/form_decoration.dart';
 import 'package:travel_guide/widgets/static_variable.dart';
 
@@ -15,6 +19,8 @@ class AddTravelSpot extends StatefulWidget {
 class _AddTravelSpotState extends State<AddTravelSpot> {
   String? selectTravelSpot;
   String? selectTravelRegion;
+  ImagePicker picker = ImagePicker();
+  File? _image;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,13 +33,22 @@ class _AddTravelSpotState extends State<AddTravelSpot> {
   }
 
   Widget _bodyUI() {
+
     Size size = MediaQuery.of(context).size;
     return Padding(
         padding: EdgeInsets.symmetric(horizontal: 10 ),
       child: ListView(
         children: [
           ClipRRect(
-            child: Image.asset("images/asset/pictures/Bangladesh.jpg"),
+              child: _image !=null ?Image.file(
+                _image!,
+                width: size.width,
+                height: size.height * 0.3,
+                fit: BoxFit.contain,
+              ):Icon(Icons.image,size: size.height * 0.3,color: Theme.of(context).primaryColor,)
+
+
+            //child: Image.asset("images/asset/pictures/Bangladesh.jpg"),
           ),
           SizedBox(height: 10),
           Row(
@@ -79,7 +94,7 @@ class _AddTravelSpotState extends State<AddTravelSpot> {
                   return DropdownMenuItem(
                       child: Container(
                         width: size.width*.75,
-                        child: Text("SelectTravelRegion",style: TextStyle(
+                        child: Text(selectTravelRegion,style: TextStyle(
                             color: Colors.grey[900],
                             fontSize: 16,
                         )),
@@ -91,6 +106,7 @@ class _AddTravelSpotState extends State<AddTravelSpot> {
                 onChanged: (newValue) {
                   setState(() {
                     selectTravelRegion=newValue as String?;
+                    selectTravelSpot=null;
                   });
 
                 },
@@ -120,7 +136,22 @@ class _AddTravelSpotState extends State<AddTravelSpot> {
                       fontSize: size.height*0.023
                   )),
                 ),
-                items: StaticVariables.TravelRegion.map((selectTravelSpot){
+                items: selectTravelRegion==null?null
+
+                    : selectTravelRegion=='Travel Bangladesh'? StaticVariables.TravelBD.map((selectTravelSpot){
+                  return DropdownMenuItem(
+                    child: Container(
+                      width: size.width*.75,
+                      child: Text(selectTravelSpot,style: TextStyle(
+                        color: Colors.grey[900],
+                        fontSize: 16,
+                      )),
+                    ),
+                    value: selectTravelSpot,
+                  );
+                }
+                ).toList()
+                    : StaticVariables.TravelWorld.map((selectTravelSpot){
                   return DropdownMenuItem(
                     child: Container(
                       width: size.width*.75,
@@ -153,9 +184,37 @@ class _AddTravelSpotState extends State<AddTravelSpot> {
               labelStyle: TextStyle(color: Colors.black),
             ),
           ),
+          SizedBox(height: 10),
+        InkWell(
+          onTap: () {},
+          child:   button(context,'Submit'),
+        ),
 
         ],
       ),
     );
+  }
+
+  Future<void> _getImageFromGallery()async{
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery,maxWidth: 300,maxHeight: 300);
+    if(pickedFile!=null){
+      setState(() {
+        _image = File(pickedFile.path);
+      });
+    }else {
+      // showSnackBar(_scaffoldKey, 'No image selected', Colors.deepOrange);
+      Navigator.pop(context);
+    }
+  }
+  Future<void> _getImageFromCamera()async{
+    final pickedFile = await picker.pickImage(source: ImageSource.camera,maxWidth: 300,maxHeight: 300);
+    if(pickedFile!=null){
+      setState(() {
+        _image = File(pickedFile.path);
+      });
+    }else {
+      // showSnackBar(_scaffoldKey, 'No image selected', Colors.deepOrange);
+      Navigator.pop(context);
+    }
   }
 }

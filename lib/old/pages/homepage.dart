@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:travel_guide/pages/region.dart';
 import 'package:travel_guide/widgets/appbardecoration.dart';
+import 'package:travel_guide/widgets/static_variable.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -62,7 +64,7 @@ class _HomePageState extends State<HomePage> {
   Widget _gridBuilder(int index){
     return InkWell(
       onTap: (){
-
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> rrrr( index: index, region: StaticVariables.HomeData[index])));
       },
       child: Card(
         child: Column(

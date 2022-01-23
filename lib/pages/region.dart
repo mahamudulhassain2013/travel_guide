@@ -42,7 +42,7 @@ class _rrrrState extends State<rrrr> {
                     :StaticVariables.TravelWorld[index],style: TextStyle(fontSize: 20),),
               ),
             );
-          });
+          }),
     );
   }
 }

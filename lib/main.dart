@@ -8,6 +8,8 @@ import 'package:travel_guide/pages/count_provider.dart';
 import 'package:travel_guide/pages/counter.dart';
 import 'package:travel_guide/pages/crud_sir.dart';
 
+import 'old/pages/homepage.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,7 +35,7 @@ class MyApp extends StatelessWidget {
           hintColor: Colors.white
         ),
         debugShowCheckedModeBanner: false,
-        home: AddTravelSpot(),
+        home: HomePage(),
 
       ),
     );

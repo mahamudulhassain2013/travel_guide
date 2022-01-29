@@ -7,6 +7,7 @@ import 'package:travel_guide/pages/add_travel_spot.dart';
 import 'package:travel_guide/pages/count_provider.dart';
 import 'package:travel_guide/pages/counter.dart';
 import 'package:travel_guide/pages/crud_sir.dart';
+import 'package:travel_guide/provider/travel_provider.dart';
 
 import 'old/pages/homepage.dart';
 
@@ -25,8 +26,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context)=>CounterProvider()),
-        ChangeNotifierProvider(create: (context)=>CounterProvider()),
-        ChangeNotifierProvider(create: (context)=>CounterProvider()),
+        ChangeNotifierProvider(create: (context)=>TravelProvider()),
+
       ],
      // create: (context)=>CounterProvider(),
       child: MaterialApp(

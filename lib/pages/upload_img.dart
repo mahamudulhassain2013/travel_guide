@@ -38,7 +38,35 @@ class _UploadImageState extends State<UploadImage> {
     await FirebaseFirestore.instance.collection("images").doc().set({"img" : uri});
     print(uri);
   }
+  Future<void> deleteImage(String id,BuildContext context)async{
+    await FirebaseFirestore.instance.collection('images').doc(id).delete().then((value) {
+      FirebaseStorage.instance.ref().child('imageName').child(id).delete();
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+            'Delete Successfully',
+          )));
+      // Navigator.pop(context);
+    },onError: (error){
+      Navigator.pop(context);
+    });
+  }
 
+  Future <void> UpdateImg(String id) async {
+    var imagefile = FirebaseStorage.instance.ref().child('imageName').child(id);
+    TaskSnapshot snapshot = await imagefile.putFile(file!);
+    /// for download the image
+    uri = await snapshot.ref.getDownloadURL();
+    /// store the image url into the firestore database
+    await FirebaseFirestore.instance
+        .collection("images")
+        .doc(id)
+        .set({"img": uri});
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          'Successfully Updated',
+        )));
+    // print(uri);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -114,10 +142,31 @@ class _UploadImageState extends State<UploadImage> {
                         child: Hero(
                           tag:querysnapshot['img'],
                           child: Card(
-                            child: Image.network(
-                              querysnapshot['ing'],
-                              fit: BoxFit.fill,
+                            child: Column(
+                              children: [
+                                Image.network(
+                                  querysnapshot['img'],
+                                  fit: BoxFit.fill,
+                                ),
+                                Row(
+                                  children: [
+                                    RaisedButton(
+                                      onPressed: () async{
+                                        await deleteImage(querysnapshot.id, context);
+                                      },
+                                      child: Text("Delete"),
+                                    ),
+                                    RaisedButton(
+                                      onPressed: () async{
+                                        await  UpdateImg(querysnapshot.id);
+                                      },
+                                      child: Text("Update"),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
+                            
                           ),
                         ),
                       );

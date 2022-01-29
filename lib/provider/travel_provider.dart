@@ -45,7 +45,8 @@ class TravelProvider extends ChangeNotifier {
     final int timestemp = DateTime.now().millisecond;
     String id = travelModel.spotname! + timestemp.toString();
     final String submitDate = DateFormat("dd-MMM-yyyy/hh:mm:aa")
-        .format(DateTime.fromMillisecondsSinceEpoch(timestemp));
+        .format(DateTime.now());
+
     firebase_storage.Reference storageReference = firebase_storage
         .FirebaseStorage.instance.ref().child('Travel Spot Img').child(id);
     firebase_storage.UploadTask storageUploadTask = storageReference.putFile(imageFile);
@@ -61,8 +62,8 @@ class TravelProvider extends ChangeNotifier {
           'description': travelModel.tdescription,
           'travelregion': travelModel.travelregion,
           'travelspot': travelModel.travelspot,
-          'timestemp': timestemp,
-          'submitDate': null,
+          'timestemp': timestemp.toString(),
+          'submitDate': submitDate,
         });
         Navigator.pop(context);
       }, onError: (error) {
@@ -81,69 +82,34 @@ class TravelProvider extends ChangeNotifier {
     });
   }
 
-// Future<void> getFaculty() async {
-//   //final String id = await getPreferenceId();
-//   try {
-//     await FirebaseFirestore.instance
-//         .collection('faculty')
-//         .where('id', isEqualTo: facultyModel.id)
-//         .get()
-//         .then((snapShot) {
-//       _facultyList.clear();
-//       snapShot.docChanges.forEach((element) {
-//         FacultyModel users = FacultyModel(
-//           id: element.doc['id'],
-//           fid: element.doc['fid'],
-//           fpassword: element.doc['fpassword'],
-//           fmembername: element.doc['fmembername'],
-//           fphone: element.doc['fphone'],
-//           departmentname: element.doc['departmentname'],
-//           fimage: element.doc['fimage'],
-//           fmemberemail: element.doc['fmemberemail'],
-//           fdesignation: element.doc['fdesignation'],
-//           facademicqualification: element.doc['facademicqualification'],
-//           fteachingarea: element.doc['fteachingarea'],
-//           fresearch: element.doc['fresearch'],
-//           fjournalpublication: element.doc['fjournalpublication'],
-//           submitdate: element.doc['submitdate'],
-//           timestamp: element.doc['timestamp'],
-//         );
-//         _facultyList.add(users);
-//       });
-//     });
-//     // print("Length: " + _facultyList.length.toString());
-//     notifyListeners();
-//   } catch (error) {
-//     error.toString();
-//   }
-// }
-// Future<void> getFacultyByCategory(String departmentname) async{
-//   try{
-//     await FirebaseFirestore.instance.collection('faculty').where('departmentname', isEqualTo: departmentname).get().then((snapShot){
-//       _facultyCategoryList.clear();
-//       snapShot.docChanges.forEach((element) {
-//         FacultyModel users=FacultyModel(
-//           id: element.doc['id'],
-//           fid: element.doc['fid'],
-//           fpassword: element.doc['fpassword'],
-//           fmembername: element.doc['fmembername'],
-//           fphone: element.doc['fphone'],
-//           departmentname: element.doc['departmentname'],
-//           fimage: element.doc['fimage'],
-//           fmemberemail: element.doc['fmemberemail'],
-//           fdesignation: element.doc['fdesignation'],
-//           facademicqualification: element.doc['facademicqualification'],
-//           fteachingarea: element.doc['fteachingarea'],
-//           fresearch: element.doc['fresearch'],
-//           fjournalpublication: element.doc['fjournalpublication'],
-//           submitdate: element.doc['submitdate'],
-//           timestamp: element.doc['timestamp'],
-//         );
-//         _facultyCategoryList.add(users);
-//       });
-//     });
-//     notifyListeners();
-//     print( _facultyCategoryList.length);
-//   }catch(error){'error.toString()';}
-// }
+  Future<void> getTravelSpot(String travelspot) async {
+    try {
+      await FirebaseFirestore.instance.collection('travel_spots')
+          .where('travelspot', isEqualTo: travelspot).get().then((snapShot) {
+        _travelSpotList.clear();
+        for (var element in snapShot.docChanges) {
+          TravelModel travelModels = TravelModel(
+            id: element.doc['id'],
+            spotname: element.doc['spotname'],
+            timage: element.doc['timage'],
+            tdescription: element.doc['tdescription'],
+            travelregion: element.doc['travelregion'],
+            travelspot: element.doc['travelspot'],
+            timestemp: element.doc['timestemp'],
+            submitDate: element.doc['submitDate'],
+          );
+          _travelSpotList.add(travelModels);
+        }
+      });
+
+      notifyListeners();
+      print("Length: " + _travelSpotList.length.toString());
+    } catch (error) {
+      'error.toString()';
+    }
+  }
+
+
+
+
 }

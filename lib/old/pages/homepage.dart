@@ -64,7 +64,7 @@ class _HomePageState extends State<HomePage> {
   Widget _gridBuilder(int index){
     return InkWell(
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> rrrr( index: index, region: StaticVariables.HomeData[index])));
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> RegionPage( index: index, region: StaticVariables.HomeData[index])));
       },
       child: Card(
         child: Column(
